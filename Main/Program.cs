@@ -1,71 +1,69 @@
-﻿string y_play ("y");
-string n_play ("n");
-int balance = 5000;
-int stavka, number, prize, drop;
-int counter = 0;
-//int a = 1; 
-int i;
-bool verify = false;
-Random rnd = new Random();
+﻿int counter = 0;
+double balance = 5000;
 
 Console.Write ("Enter your nickname: ");
 string? nickname = Console.ReadLine();
-if (nickname != null){
-    Console.Clear();
-    Console.Write ("Would you like to play?(y/n)");
-    string? play = Console.ReadLine();
-        if (play != null) verify = true;
-        else
-            Console.WriteLine("You didn't answer");
-}else
-    Console.WriteLine("You didn't enter a nickname");
+string nickname1 = nickname ?? "Unknown";
+//if (nickname is null) nickname = ("Unknown");
+Console.Clear();
 
+Console.WriteLine ("Would you like to play?(y/n)");
+string? play = Console.ReadLine();
+if (play is null) play = ("y");
+Console.Clear();
 
-cin >> play;
-cout << ("\e[1;1H\e[2J");
-/*
-while(play == y_play)
-    {
-        if(counter >= 1){
-            cout << ("\e[1;1H\e[2J");
-            cout << "Would you like to play more?(y/n)" << endl;
-            cin >> play;
+if (play.ToLower() == "y"){
+    while (play.ToLower() == "y"){
+        if(counter > 0){
+            Console.Clear();
+            Console.WriteLine ("Would you like to play?(y/n)");
+            play = Console.ReadLine();
+            if (play is null) play = ("y");
+            if (play.ToLower() == "n"){
+                Console.WriteLine ("See you soon! :P");
+                Environment.Exit(0);
+            }  
         }
-        cout << ("\e[1;1H\e[2J");
-        cout << "========== Welcome to Casino Bass Ground ==========" << endl;
-        cout << "Nickname: " << nick << "    " << "Balance: " << balance << "$" << endl;
-        if(play == y_play){
-            cout << "Enter bid: ";
-            cin >> stavka;
-            
-            while(stavka > balance){
-            cout << "Error" << endl;
-            cout << "Enter bid: ";
-            cin >> stavka;
-            }
-        
-            cout << "Enter drop 1 - 10: ";
-            cin >> drop;
-            cout << endl; 
-            cout << "Wait..." << endl;
-            number = GetRandomNumber(0, 10);
-            cout << "Drop: " << number << endl;
-            if (drop == number){
-                prize = stavka * 0.3;
-                cout << "Congratulations! Your prize: " << prize << endl << "Wait 5 sec for restart" << endl;
-                balance += prize;
-                this_thread::sleep_for(chrono::seconds(3));
-            }else{
-                cout << "Unfortunately your bid didn't go in \nWait 5 sec for restart" << endl;
-                balance -= stavka;
-                this_thread::sleep_for(chrono::seconds(3));
-            }
-            
+        Console.Clear();
+        Console.WriteLine("========== Welcome to Casino Bass Ground ==========");
+        Console.Write($"Nickname: {nickname1}            Balance: {balance}");
+        Console.WriteLine();
+        Console.Write ("Enter bid: ");
+        int stavka = Convert.ToInt32 (Console.ReadLine());
+        Console.Write ("Enter digit 1 - 10: ");
+        int digit = Convert.ToInt32 (Console.ReadLine());
+        Console.WriteLine ();
+        Console.WriteLine ("Wait...");
+        int number = new Random().Next(1, 11);
+        await Task.Delay(1000);
+        Console.WriteLine ($"The dropped digit: {number}");
+        await Task.Delay(1000);
+        if (digit == number){
+            double prize = Math.Round((stavka * 0.3), 2,MidpointRounding.AwayFromZero);
+            balance += prize;
+            Console.WriteLine($"Congratulations! Your prize: {prize}"); 
+            Console.WriteLine("Wait 5 sec for restart");
+            await Task.Delay(5000);
+        }else{
+            Console.WriteLine ("Unfortunately your bid didn't go in");
+            Console.WriteLine("Wait 5 sec for restart");
+            balance -= stavka;
+            await Task.Delay(5000);
         }
-        counter++;
-    }
-    while(play == n_play){
-        cout << "See you soon :)";
-        return 0;
+    counter++;
     }
 }
+
+
+/*
+
+ void PrintUpper(string? text)
+{
+    if (text is  null) return;
+    Console.WriteLine(text.ToUpper());
+}
+
+    Console.WriteLine("Hello World");
+    string text1 = Console.ReadLine();
+    PrintUpper(text1);
+*/
