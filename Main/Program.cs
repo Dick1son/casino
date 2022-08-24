@@ -1,32 +1,41 @@
-﻿int counter = 0;
+﻿Console.Clear();
+int counter = 0;
 double balance = 5000;
+bool verify = false;
 
+bool Invite(){
+    while (verify == false){
+        Console.WriteLine ("Would you like to play?(y/n)");
+        string? play = Console.ReadLine();
+        if (play is "" || play.ToLower() == "y") verify = true;
+        if (play.ToLower() == "n"){
+            Console.WriteLine ("See you soon! :D");
+            Environment.Exit(0);
+        }
+        if (play is not "" && play.ToLower() != "y" && play.ToLower() != "n") 
+            Console.WriteLine ("Error, enter is acceptable answer");
+            //await Task.Delay(2000);
+       // Console.Clear();
+    }
+    return verify;
+}
+
+Console.WriteLine("The nickname must be no more than 10 characters long");
 Console.Write ("Enter your nickname: ");
 string? nickname = Console.ReadLine();
-string nickname1 = nickname ?? "Unknown";
-//if (nickname is null) nickname = ("Unknown");
+if (nickname is "") nickname = "Unknown";
 Console.Clear();
 
-Console.WriteLine ("Would you like to play?(y/n)");
-string? play = Console.ReadLine();
-if (play is null) play = ("y");
-Console.Clear();
+Invite();
 
-if (play.ToLower() == "y"){
-    while (play.ToLower() == "y"){
+if (verify == true){
+    while (verify == true){
         if(counter > 0){
-            Console.Clear();
-            Console.WriteLine ("Would you like to play?(y/n)");
-            play = Console.ReadLine();
-            if (play is null) play = ("y");
-            if (play.ToLower() == "n"){
-                Console.WriteLine ("See you soon! :P");
-                Environment.Exit(0);
-            }  
+            Invite(); 
         }
         Console.Clear();
         Console.WriteLine("========== Welcome to Casino Bass Ground ==========");
-        Console.Write($"Nickname: {nickname1}            Balance: {balance}");
+        Console.Write($"Nickname: {nickname}            Balance: {balance}");
         Console.WriteLine();
         Console.Write ("Enter bid: ");
         int stavka = Convert.ToInt32 (Console.ReadLine());
@@ -53,17 +62,3 @@ if (play.ToLower() == "y"){
     counter++;
     }
 }
-
-
-/*
-
- void PrintUpper(string? text)
-{
-    if (text is  null) return;
-    Console.WriteLine(text.ToUpper());
-}
-
-    Console.WriteLine("Hello World");
-    string text1 = Console.ReadLine();
-    PrintUpper(text1);
-*/
